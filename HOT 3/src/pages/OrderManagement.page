@@ -1,0 +1,56 @@
+<apex:page controller="OrderExtension" >
+
+    <!-- Loading Spinner Starts Here -->
+    <apex:actionstatus id="actStatusId">
+        <apex:facet name="start">
+            <div class="waitingSearchDiv"  style="background-color: #fbfbfb; height:100%;opacity:0.70;width:100%;">
+                <div class="waitingHolder" style="top: 100px; width: 98px;">
+                    <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                    <span class="waitingDescription">Loading...</span>
+                </div>
+            </div>
+        </apex:facet>
+    </apex:actionstatus>
+    <!-- Loading Spinner Starts Here -->
+
+    <!-- Form Starts Here -->
+    <apex:form >
+        <apex:commandLink value="{!OpportunityName}" action="/{!currentId}"/><br/>
+        <apex:OutputLabel value="Tick The Respective CheckBox Only If You Want To Delete The Record"/>
+        <apex:pageMessages />
+        <apex:pageBlock >
+
+            <!-- Multiple Records CRUD Operation Table STARTS Here -->
+            <apex:pageBlockTable value="{!OrderList}" var="objWrapper" id="OrderTable">
+                <apex:column headerValue="Delete">
+                    <apex:actionRegion immediate="true" renderRegionOnly="true">
+                        <apex:inputCheckbox value="{!objWrapper.isDelete}">
+                            <apex:actionSupport event="onUpdate" status="status"/>
+                        </apex:inputCheckbox>
+                    </apex:actionRegion>
+                </apex:column>
+                <apex:column headerValue="Order Name">
+                    <apex:inputfield value="{!objWrapper.recordOrder.Name}"/>
+                </apex:column>
+                <apex:column value="{!objWrapper.recordOrder.ID}"/>
+                <apex:column headerValue="Account Name">
+                    <apex:inputfield value="{!objWrapper.recordOrder.AccountId}"/>
+                </apex:column>
+                <apex:column headerValue="Status">
+                    <apex:inputfield value="{!objWrapper.recordOrder.Status}"/>
+                </apex:column>  
+                <apex:column headerValue="Order Start Date">
+                    <apex:inputfield value="{!objWrapper.recordOrder.EffectiveDate}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+            <!-- Multiple Records CRUD Operation Table ENDS Here -->
+
+            <!-- Buttons Section STARTS Here -->
+            <apex:commandButton value="Add Order"  action="{!AddRow}" status="actStatusId"/>
+            <apex:commandButton value="Save"  action="{!SaveAcc}" status="actStatusId"/>
+            <!-- Buttons Section ENDS Here -->
+
+        </apex:pageBlock>
+    </apex:form>
+    <!-- Form Ends Here -->
+</apex:page>

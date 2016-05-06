@@ -1,0 +1,103 @@
+<apex:page standardController="Quote" extensions="QuoteExtension" showHeader="false" renderAs="pdf">
+    <body>
+
+        <!-- Quote Heading Starts Here -->
+        <h1 style="text-align:center">Quote</h1>
+        <apex:panelGrid columns="2" width="100%">
+            <apex:panelGrid columns="1" width="50%">
+                    <apex:outputText value="{!$Organization.Name}" style="font-size:200%"/>
+                    <apex:outputText value="{!$Organization.Street}"/>
+                    <apex:outputText value="{!$Organization.City}, {!$Organization.State} {!$Organization.PostalCode}"/>
+                    <apex:outputText value="{!$Organization.Phone}"/>
+            </apex:panelGrid>
+
+            <apex:panelGrid columns="2" width="70%" cellpadding="0"  cellspacing="0" columnClasses="left,right" style="float:right; text-align:left" >
+                <apex:panelGrid columns="1" width="100%">
+                    <apex:outputText value="Quote#"/>
+                    <apex:outputText value="Created Date"/>
+                </apex:panelGrid>
+                <apex:panelGrid columns="1" width="100%" style="text-align:left">
+                    <apex:outputText value="{!Quote.QuoteNumber}"/>
+                    <apex:outputField value="{!Quote.lastmodifieddate}"/>
+                </apex:panelGrid>
+            </apex:panelGrid>
+
+        </apex:panelGrid>
+        <!-- Quote Heading Ends Here -->
+
+        <!-- Prepared Details Starts Here -->
+        <apex:panelGrid columns="2"  width="100%">
+
+            <apex:panelGrid columns="1">
+                <apex:outputText value="Prepared By" style="Background:#C2C2C2"/>
+                <apex:outputText value="{!OrganizationName}"/>
+                <apex:outputText value="{!OrganizationEmail}"/>
+            </apex:panelGrid>
+
+            <apex:panelGrid columns="1"  style="float:right">
+                <apex:outputText value="Prepared For" style="Background:#C2C2C2"/>
+                <apex:outputText value="{!Quote.contact.name}" />
+                <apex:outputText value="{!Quote.contact.MobilePhone}"/>
+                <apex:outputText value="{!Quote.contact.Email}"/>
+            </apex:panelGrid>
+
+        </apex:panelGrid>
+        <!-- Prepared Details Ends Here -->
+
+        <!-- Billing Details Starts Here -->
+        <apex:panelGrid columns="1" cellpadding="0" cellspacing="0">
+            <apex:outputText value="Bill To : " style="background-color: #C2C2C2;"/>
+
+            <apex:panelGrid columns="1">
+                <apex:outputText value="{!Quote.opportunity.account.name}"/>
+                <apex:outputText value="{!Quote.contact.mailingStreet}"/>
+                <apex:panelGroup >
+                    <apex:outputText value="{!Quote.contact.mailingCity}"/>
+                    <apex:outputText value=", {!Quote.contact.mailingState}"/>
+                    <apex:outputText value=" {!Quote.contact.mailingPostalCode}"/>
+                </apex:panelGroup>
+                <apex:outputText value="Phone: {!Quote.contact.phone}"/>
+            </apex:panelGrid>
+
+        </apex:panelGrid>
+        <!-- Billing Details Ends Here -->
+
+        <!-- Quote LineItems Table Starts Here -->
+        <apex:outputPanel layout="block" />
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!ListQuoteLineItem}" var="line" width="100%" border="1" style="Background:#C2C2C2">
+                <!--apex:panelGrid columns="2" columnClasses="left,right" width="100%" border="1" bgcolor="C2C2C2"-->
+                    <apex:column headerValue="Product" value="{!line.product2Id}" style="Background:white"/>
+                    <apex:column headerValue="List Price" value="{!line.ListPrice}" style="text-align:right; Background:white"/>
+                    <apex:column headerValue="Sales Price" value="{!line.UnitPrice}" style="text-align:right; Background:white"/>
+                    <apex:column headerValue="Quantity" value="{!line.Quantity}" style="text-align:right; Background:white"/>
+                    <apex:column headerValue="Discount" value="{!line.Discount}" style="text-align:right; Background:white"/>
+                    <apex:column headerValue="Total Price" value="{!line.TotalPrice}" style="text-align:right; Background:white"/>
+                <!--/apex:panelGrid-->
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        <!-- Quote LineItems Table Ends Here -->
+
+        <!-- Different Amount Details Starts Here -->
+        <apex:outputPanel layout="block"/>
+        <apex:panelGrid columns="2" columnClasses="right" width="50%" style="float:right;">
+            <apex:panelGrid columns="2" cellpadding="10" columnClasses="right totalLabel,right total" width="100%" >
+                <apex:outputText value="Subtotal"/>
+                <apex:outputField value="{!Quote.SubTotal}"/>
+                <apex:outputText value="Discount"/>
+                <apex:outputField value="{!Quote.Discount}"/>
+                <apex:outputText value="Total"/>
+                <apex:outputField value="{!Quote.TotalPrice}"/>
+                <apex:outputText value="Tax"/>
+                <apex:outputField value="{!Quote.Tax}"/>
+                <apex:outputText value="Shipping and Handling"/>
+                <apex:outputField value="{!Quote.ShippingHandling}"/>
+                <apex:outputText value="Grand Total"/>
+                <apex:outputField value="{!Quote.GrandTotal}"/>
+            </apex:panelGrid>
+        </apex:panelGrid>
+        <apex:outputPanel layout="block"/>
+        <!-- Different Amount Details Ends Here -->
+
+    </body>
+</apex:page>
